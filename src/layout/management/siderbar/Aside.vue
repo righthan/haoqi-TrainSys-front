@@ -17,6 +17,18 @@
           <span>学员管理</span>
         </template>
       </el-menu-item>
+      <el-menu-item index="selectManage">
+        <template slot="title">
+          <i class="el-icon-user"></i>
+          <span>选课管理</span>
+        </template>
+      </el-menu-item>
+      <el-menu-item index="signManage">
+        <template slot="title">
+          <i class="el-icon-user"></i>
+          <span>学员签到</span>
+        </template>
+      </el-menu-item>
       <el-menu-item index="teacherManage">
         <i class="el-icon-menu"></i>
         <span slot="title">讲师管理</span>
@@ -28,6 +40,10 @@
       <el-menu-item index="noticeManage">
         <i class="el-icon-menu"></i>
         <span slot="title">培训通知管理</span>
+      </el-menu-item>
+      <el-menu-item index="applicationManage">
+        <i class="el-icon-menu"></i>
+        <span slot="title">培训申请管理</span>
       </el-menu-item>
     </el-menu>
   </div>
