@@ -29,30 +29,6 @@
         <i class="el-icon-menu"></i>
         <span slot="title">培训通知管理</span>
       </el-menu-item>
-      <el-submenu index="4">
-        <template slot="title">
-          <i class="el-icon-files"></i>
-          <span>借阅管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="addBorrowInfo">添加借阅记录</el-menu-item>
-          <el-menu-item index="borrowManage">借阅记录管理</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="5">
-        <template slot="title">
-          <i class="el-icon-notebook-2"></i>
-          <span>书籍管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="addBook">图书录入</el-menu-item>
-          <el-menu-item index="modifyBookInfo">图书信息修改</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-menu-item index="showRecommend">
-        <i class="el-icon-chat-line-round"></i>
-        <span slot="title">查看采购推荐</span>
-      </el-menu-item>
     </el-menu>
   </div>
 </template>

@@ -13,10 +13,22 @@ const manageRouter = [
     meta: { title: '编辑课程信息' }
   },
   {
-    path: 'studentManage',
+    path: '/studentManage',
     component: () => import('@/views/student/index.vue'),
     name: 'studentManage',
     meta: { title: '学员管理' }
+  },
+  {
+    path: '/teacherManage',
+    component: () => import('@/views/teacher/index.vue'),
+    name: 'teacherManage',
+    meta: { title: '讲师管理' }
+  },
+  {
+    path: '/editTeacher/:type/:id?',
+    component: () => import('@/views/teacher/EditTeacher.vue'),
+    name: 'editTeacher',
+    meta: { title: '编辑讲师信息' }
   }
 ]
 
