@@ -19,6 +19,12 @@ const manageRouter = [
     meta: { title: '学员管理' }
   },
   {
+    path: '/editStudent/:type/:id?',
+    component: () => import('@/views/student/EditStudent.vue'),
+    name: 'editStudent',
+    meta: { title: '编辑学生信息' }
+  },
+  {
     path: '/teacherManage',
     component: () => import('@/views/teacher/index.vue'),
     name: 'teacherManage',

@@ -17,6 +17,7 @@
     </div>
     <el-card>
       <el-table :data="tableData" stripe style="width: 100%">
+        <el-table-column prop="studentid" label="学号" width="180" />
         <el-table-column prop="studentName" label="姓名" width="180" />
         <el-table-column prop="courseName" label="课程名称" width="180" />
         <el-table-column prop="signed" label="是否签到" width="180">

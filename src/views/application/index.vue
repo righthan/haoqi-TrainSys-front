@@ -3,7 +3,10 @@
     <el-card class="box-card">
       <el-form ref="form" :model="form" inline label-width="80px">
         <el-form-item label="公司名称">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.companyName"></el-input>
+        </el-form-item>
+        <el-form-item label="课程名称">
+          <el-input v-model="form.courseName"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button
@@ -14,26 +17,33 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <div>
-      <el-button
-        type="primary"
-        @click="$router.push({ path: '/editTeacher/add' })"
-        >新增讲师</el-button
-      >
-    </div>
     <el-card>
       <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column prop="id" label="编号" width="180" />
-        <el-table-column prop="name" label="姓名" width="180" />
-        <el-table-column prop="title" label="职称" width="180" />
-        <el-table-column prop="phone" label="手机号" width="180" />
-        <el-table-column prop="email" label="电子邮箱" width="180" />
+        <el-table-column prop="coursename" label="课程名称" width="180" />
+        <el-table-column prop="companyname" label="公司名称" width="180" />
+        <el-table-column prop="phone" label="办公电话" width="180" />
+        <el-table-column prop="position" label="公司地址" width="180" />
+        <el-table-column prop="price" label="价格" width="180" />
+        <el-table-column prop="flag" label="是否通过" width="180">
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.flag === 0" type="info">未审批</el-tag>
+            <el-tag v-if="scope.row.flag === 1" type="success">同意</el-tag>
+            <el-tag v-if="scope.row.flag === 2" type="danger">拒绝</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
+              v-if="scope.row.flag === 0"
               type="text"
-              @click="$router.push('/editTeacher/edit/' + scope.row.id)"
-              >编辑</el-button
+              @click="handleUpdate(scope.row.id, 1)"
+              >同意</el-button
+            >
+            <el-button
+              v-if="scope.row.flag === 0"
+              type="text"
+              @click="handleUpdate(scope.row.id, 2)"
+              >拒绝</el-button
             >
             <el-button type="text" @click="handleDelete(scope.row.id)"
               >删除</el-button
@@ -57,14 +67,15 @@
 </template>
 
 <script>
-import { query, deleteTeacher } from "@/api/teacher";
+import { query, deleteApplication, update } from "@/api/application";
 
 export default {
-  name: "Course",
+  name: "Application",
   data() {
     return {
       form: {
-        name: "",
+        courseName: "",
+        companyName: "",
       },
       tableData: [],
       pagination: {
@@ -97,6 +108,27 @@ export default {
     },
     handleCurrentChange(current) {
       this.handleSearch(current, this.pagination.size);
+    },
+    handleUpdate(id, status) {
+      update({ id, status })
+        .then((res) => {
+          if (res.success) {
+            this.$message({
+              message: "操作成功",
+              type: "success",
+            });
+            this.handleSearch();
+          } else {
+            throw new Error("操作失败");
+          }
+        })
+        .catch((e) => {
+          this.$message({
+            message: "操作失败",
+            type: "success",
+          });
+          console.log(e);
+        });
     },
     handleDelete(id) {
       deleteTeacher({ id })

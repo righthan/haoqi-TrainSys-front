@@ -1,0 +1,141 @@
+<template>
+  <div>
+    <el-card>
+      <div slot="header" class="clearfix">
+        <h3>
+          {{ this.$route.params.type === "add" ? "新增" : "编辑" }}学员信息
+        </h3>
+      </div>
+      <el-form
+        class="form-wrapper"
+        :model="formData"
+        ref="form"
+        :rules="rules"
+        label-width="100px">
+        <el-form-item prop="name" label="姓名">
+          <el-input v-model="formData.name"></el-input>
+        </el-form-item>
+        <el-form-item prop="company" label="所在公司">
+          <el-input v-model="formData.company"></el-input>
+        </el-form-item>
+        <el-form-item prop="phone" label="手机号">
+          <el-input v-model="formData.phone"></el-input>
+        </el-form-item>
+        <el-form-item prop="email" label="电子邮箱">
+          <el-input v-model="formData.email"></el-input>
+        </el-form-item>
+        <el-form-item prop="position" label="联系地址">
+          <el-input v-model="formData.position"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm">保存</el-button>
+          <el-button @click="resetForm">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
+  </div>
+</template>
+
+<script>
+import { add, update, queryDetail } from "@/api/student";
+
+export default {
+  name: "EditCourse",
+  data() {
+    return {
+      pageType: "",
+      formData: {
+        id: null,
+        name: "",
+        phone: "",
+        email: "",
+        skills: "",
+        title: "",
+      },
+      rules: {
+        name: [
+          { required: true, message: "请输入姓名", trigger: "blur" },
+          { min: 1, message: "长度至少为一个字符", trigger: "blur" },
+        ],
+        phone: [{ required: true, message: "请输入手机号", trigger: "blur" }],
+        email: [{ required: true, message: "请输入电子邮箱", trigger: "blur" }],
+      },
+    };
+  },
+  methods: {
+    submitForm() {
+      this.$refs["form"].validate((valid) => {
+        if (valid) {
+          if (this.pageType === "add") {
+            add({ ...this.formData })
+              .then((res) => {
+                if (res.success) {
+                  this.$message({
+                    message: "新增成功",
+                    type: "success",
+                  });
+                  this.$router.back();
+                } else {
+                  throw new Error("新增失败");
+                }
+              })
+              .catch((err) => {
+                this.$message({
+                  message: "新增失败",
+                  type: "error",
+                });
+                console.log(err);
+              });
+          } else if (this.pageType === "edit") {
+            update({ ...this.formData })
+              .then((res) => {
+                if (res.success) {
+                  this.$message({
+                    message: "更新成功",
+                    type: "success",
+                  });
+                  this.$router.back();
+                } else {
+                  this.$message({
+                    message: "更新失败",
+                    type: "error",
+                  });
+                }
+              })
+              .catch((e) => {
+                console.log(e);
+              });
+          }
+        } else {
+          this.$message.error("表单校验错误");
+          return false;
+        }
+      });
+    },
+    resetForm() {
+      this.$refs.form.resetFields();
+    },
+  },
+  mounted() {
+    const { type, id } = this.$route.params;
+    this.pageType = type;
+    if (type === "edit") {
+      queryDetail({ id })
+        .then((res) => {
+          if (res.success) {
+            this.formData = { ...res.data };
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.form-wrapper {
+  width: 50%;
+}
+</style>
