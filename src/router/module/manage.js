@@ -89,7 +89,19 @@ const manageRouter = [
     component: () => import('@/views/questionnair/List.vue'),
     name: 'questionnairManage',
     meta: { title: '课程评价管理' }
-  }
+  },
+  {
+    path: '/noticeManage',
+    component: () => import('@/views/notice/NoticeList.vue'),
+    name: 'noticeManage',
+    meta: { title: '培训通知管理' }
+  },
+  {
+    path: '/notice/editNotice/:type/:id?',
+    component: () => import('@/views/notice/EditNotice.vue'),
+    name: 'editNotice',
+    meta: { title: '编辑通知信息' }
+  },
 ]
 
 export default manageRouter
