@@ -3,7 +3,7 @@ const manageRouter = [
   {
     path: '/course',
     name: 'course',
-    component: () => import('@/views/course/index.vue'),
+    component: () => import('@/views/course/List.vue'),
   },
   {
     props: true,
@@ -14,7 +14,7 @@ const manageRouter = [
   },
   {
     path: '/studentManage',
-    component: () => import('@/views/student/index.vue'),
+    component: () => import('@/views/student/List.vue'),
     name: 'studentManage',
     meta: { title: '学员管理' }
   },
@@ -26,7 +26,7 @@ const manageRouter = [
   },
   {
     path: '/teacherManage',
-    component: () => import('@/views/teacher/index.vue'),
+    component: () => import('@/views/teacher/List.vue'),
     name: 'teacherManage',
     meta: { title: '讲师管理' }
   },
@@ -38,13 +38,13 @@ const manageRouter = [
   },
   {
     path: '/applicationManage',
-    component: () => import('@/views/application/index.vue'),
+    component: () => import('@/views/application/List.vue'),
     name: 'applicationManage',
     meta: { title: '培训申请管理' }
   },
   {
     path: '/selectManage',
-    component: () => import('@/views/sign/index.vue'),
+    component: () => import('@/views/sign/List.vue'),
     name: 'selectManage',
     meta: { title: '选课管理' }
   },
@@ -63,7 +63,7 @@ const manageRouter = [
   },
   {
     path: '/questionnairManage',
-    component: () => import('@/views/questionnair/index.vue'),
+    component: () => import('@/views/questionnair/List.vue'),
     name: 'questionnairManage',
     meta: { title: '课程评价管理' }
   }

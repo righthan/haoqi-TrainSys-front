@@ -6,18 +6,14 @@
         hide-required-asterisk
         :model="loginData"
         :rules="rules"
-        label-width="80px"
-      >
-        <div class="title"><h2>欢迎登录图书管理系统</h2></div>
+        label-width="80px">
+        <div class="title">欢迎使用浩奇培训管理系统</div>
         <el-form-item label="用户名" prop="username">
           <el-input v-model="loginData.username"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input type="password" v-model="loginData.password"></el-input>
         </el-form-item>
-        <!-- <el-form-item>
-          
-        </el-form-item> -->
       </el-form>
       <el-button type="primary" @click="handleLogin">登录</el-button>
     </el-card>

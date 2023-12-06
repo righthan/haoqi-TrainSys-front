@@ -51,7 +51,7 @@
           data.courseName
         }}</el-descriptions-item>
         <el-descriptions-item label="学费" :span="3">{{
-          data.price
+          data.price + " 元"
         }}</el-descriptions-item>
       </el-descriptions>
     </el-card>
