@@ -55,6 +55,13 @@ const manageRouter = [
     meta: { title: '选课信息编辑' }
   },
   {
+    path: '/sign',
+    component: () => import('@/views/sign/StudentSign.vue'),
+    name: 'stuSign',
+    meta: { title: '学员签到' }
+
+  },
+  {
     path: '/questionnairManage',
     component: () => import('@/views/questionnair/index.vue'),
     name: 'questionnairManage',

@@ -24,6 +24,14 @@ export function query(params) {
     })
 }
 
+export function queryById(params) {
+    return request({
+        url: '/sign/queryById',
+        method: 'GET',
+        params
+    })
+}
+
 export function queryDetail(params) {
     return request({
         url: '/sign/queryDetail',

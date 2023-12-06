@@ -23,7 +23,7 @@
           <span>选课管理</span>
         </template>
       </el-menu-item>
-      <el-menu-item index="signManage">
+      <el-menu-item index="sign">
         <template slot="title">
           <i class="el-icon-user"></i>
           <span>学员签到</span>
