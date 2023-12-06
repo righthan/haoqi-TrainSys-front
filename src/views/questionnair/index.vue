@@ -27,6 +27,19 @@
             </el-rate>
           </template>
         </el-table-column>
+        <el-table-column prop="suggestion" label="课程评价">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              width="300"
+              trigger="hover"
+              :content="scope.row.suggestion">
+              <span slot="reference" class="suggestion-wrapper">{{
+                scope.row.suggestion
+              }}</span>
+            </el-popover>
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" @click="handleDelete(scope.row.id)"
@@ -100,5 +113,11 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 1em;
+}
+
+.suggestion-wrapper {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; //文本不换行，这样超出一行的部分被截取，显示...
 }
 </style>
