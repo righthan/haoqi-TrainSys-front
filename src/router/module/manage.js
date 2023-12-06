@@ -1,6 +1,11 @@
 // 管理模块的路由
 const manageRouter = [
   {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: () => import('@/views/dashboard/DashBoard.vue'),
+  },
+  {
     path: '/course',
     name: 'course',
     component: () => import('@/views/course/List.vue'),

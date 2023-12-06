@@ -7,6 +7,10 @@
       :default-active="getPath"
       router
       unique-opened>
+      <el-menu-item index="dashboard">
+        <i class="el-icon-data-analysis"></i>
+        <span slot="title">统计数据</span>
+      </el-menu-item>
       <el-menu-item index="course">
         <i class="el-icon-data-analysis"></i>
         <span slot="title">培训课程管理</span>
