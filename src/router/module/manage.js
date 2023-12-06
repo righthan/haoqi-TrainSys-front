@@ -7,7 +7,7 @@ const manageRouter = [
   },
   {
     props: true,
-    path: 'editCourse/:type/:id?',
+    path: '/course/editCourse/:type/:id?',
     component: () => import('@/views/course/EditCourse.vue'),
     name: 'editCourse',
     meta: { title: '编辑课程信息' }
@@ -19,7 +19,7 @@ const manageRouter = [
     meta: { title: '学员管理' }
   },
   {
-    path: '/editStudent/:type/:id?',
+    path: '/studentManage/editStudent/:type/:id?',
     component: () => import('@/views/student/EditStudent.vue'),
     name: 'editStudent',
     meta: { title: '编辑学生信息' }
@@ -31,7 +31,7 @@ const manageRouter = [
     meta: { title: '讲师管理' }
   },
   {
-    path: '/editTeacher/:type/:id?',
+    path: '/teacherManage/editTeacher/:type/:id?',
     component: () => import('@/views/teacher/EditTeacher.vue'),
     name: 'editTeacher',
     meta: { title: '编辑讲师信息' }
@@ -49,7 +49,7 @@ const manageRouter = [
     meta: { title: '选课管理' }
   },
   {
-    path: '/editSign/:type/:id?',
+    path: '/selectManage/editSign/:type/:id?',
     component: () => import('@/views/sign/EditSign.vue'),
     name: 'editSign',
     meta: { title: '选课信息编辑' }

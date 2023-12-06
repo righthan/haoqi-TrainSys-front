@@ -17,7 +17,7 @@
     <div>
       <el-button
         type="primary"
-        @click="$router.push({ path: '/editTeacher/add' })"
+        @click="$router.push({ path: '/teacherManage/editTeacher/add' })"
         >新增讲师</el-button
       >
     </div>
@@ -32,7 +32,9 @@
           <template slot-scope="scope">
             <el-button
               type="text"
-              @click="$router.push('/editTeacher/edit/' + scope.row.id)"
+              @click="
+                $router.push('/teacherManage/editTeacher/edit/' + scope.row.id)
+              "
               >编辑</el-button
             >
             <el-button type="text" @click="handleDelete(scope.row.id)"

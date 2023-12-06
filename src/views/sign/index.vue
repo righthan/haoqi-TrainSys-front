@@ -11,7 +11,9 @@
       </el-form>
     </el-card>
     <div>
-      <el-button type="primary" @click="$router.push({ path: '/editSign/add' })"
+      <el-button
+        type="primary"
+        @click="$router.push({ path: '/selectManage/editSign/add' })"
         >添加选课记录</el-button
       >
     </div>
@@ -46,7 +48,9 @@
           <template slot-scope="scope">
             <el-button
               type="text"
-              @click="$router.push('/editSign/edit/' + scope.row.id)"
+              @click="
+                $router.push('/selectManage/editSign/edit/' + scope.row.id)
+              "
               >编辑</el-button
             >
             <el-button type="text" @click="handleDelete(scope.row.id)"
