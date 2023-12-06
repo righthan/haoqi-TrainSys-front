@@ -33,7 +33,7 @@
         <i class="el-icon-menu"></i>
         <span slot="title">讲师管理</span>
       </el-menu-item>
-      <el-menu-item index="surveyManage">
+      <el-menu-item index="questionnairManage">
         <i class="el-icon-menu"></i>
         <span slot="title">培训课程调查管理</span>
       </el-menu-item>
