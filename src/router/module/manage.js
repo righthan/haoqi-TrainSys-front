@@ -19,6 +19,24 @@ const manageRouter = [
     meta: { title: '学员管理' }
   },
   {
+    path: '/selectCourse',
+    component: () => import('@/views/course/CourseSelect.vue'),
+    name: 'selectCourse',
+    meta: { title: '课程报名' }
+  },
+  {
+    path: '/evaluateCourse',
+    component: () => import('@/views/course/CourseEvaluated.vue'),
+    name: 'evaluateCourse',
+    meta: { title: '课程评价' }
+  },
+  {
+    path: '/evaluateCourseManage',
+    component: () => import('@/views/questionnair/CourseEvaluatedManage.vue'),
+    name: 'evaluateCourseManage',
+    meta: { title: '课程评价管理' }
+  },
+  {
     path: '/studentManage/editStudent/:type/:id?',
     component: () => import('@/views/student/EditStudent.vue'),
     name: 'editStudent',

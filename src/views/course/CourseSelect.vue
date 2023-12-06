@@ -14,18 +14,11 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <div>
-      <el-button
-        type="primary"
-        @click="$router.push({ path: '/course/editCourse/add' })"
-        >新增培训课程</el-button
-      >
-    </div>
     <el-card>
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column prop="id" label="课程编号" width="180" />
         <el-table-column prop="name" label="课程名称" width="180" />
-        <el-table-column prop="date" label="上课日期" width="180">
+        <el-table-column prop="date" label="日期" width="180">
           <template slot-scope="scope">{{
             scope.row.date.split("T")[0]
           }}</template>
@@ -35,13 +28,8 @@
         <el-table-column prop="teacherid" label="课程教师" width="180" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button
-              type="text"
-              @click="$router.push('/course/editCourse/edit/' + scope.row.id)"
-              >编辑</el-button
-            >
-            <el-button type="text" @click="handleDelete(scope.row.id)"
-              >删除</el-button
+            <el-button type="text" @click="handleSelectCourse(scope.row.id)"
+              >报名</el-button
             >
           </template>
         </el-table-column>
@@ -62,10 +50,11 @@
 </template>
 
 <script>
-import { queryCourse, deleteCourse } from "@/api/course";
+import { queryCourse } from "@/api/course";
+import { add as addSign } from "@/api/sign";
 
 export default {
-  name: "Course",
+  name: "CourseSelect",
   data() {
     return {
       form: {
@@ -103,24 +92,17 @@ export default {
     handleCurrentChange(current) {
       this.handleSearch(current, this.pagination.size);
     },
-    handleDelete(id) {
-      deleteCourse({ id })
+    handleSelectCourse(courseid) {
+      addSign({ studentid: 25, courseid })
         .then((res) => {
           if (res.success) {
-            this.$message({
-              message: "删除成功",
-              type: "success",
-            });
-            this.handleSearch();
+            this.$message.success("报名成功");
           } else {
-            throw new Error("删除失败");
+            this.$message.error("已报名过该课程");
           }
         })
         .catch((e) => {
-          this.$message({
-            message: "删除失败",
-            type: "error",
-          });
+          this.$message.error("网络出现问题");
           console.log(e);
         });
     },

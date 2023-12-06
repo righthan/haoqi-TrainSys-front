@@ -14,34 +14,24 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <div>
-      <el-button
-        type="primary"
-        @click="$router.push({ path: '/course/editCourse/add' })"
-        >新增培训课程</el-button
-      >
-    </div>
     <el-card>
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column prop="id" label="课程编号" width="180" />
         <el-table-column prop="name" label="课程名称" width="180" />
-        <el-table-column prop="date" label="上课日期" width="180">
-          <template slot-scope="scope">{{
-            scope.row.date.split("T")[0]
-          }}</template>
+        <el-table-column prop="evaluated" label="评价状态" width="180">
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.evaluated === 1" type="success"
+              >已开放</el-tag
+            >
+            <el-tag v-if="scope.row.evaluated === 0" type="danger"
+              >未开放</el-tag
+            ></template
+          >
         </el-table-column>
-        <el-table-column prop="position" label="上课地点" width="180" />
-        <el-table-column prop="price" label="课程价格 ( 元 )" width="180" />
-        <el-table-column prop="teacherid" label="课程教师" width="180" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button
-              type="text"
-              @click="$router.push('/course/editCourse/edit/' + scope.row.id)"
-              >编辑</el-button
-            >
-            <el-button type="text" @click="handleDelete(scope.row.id)"
-              >删除</el-button
+            <el-button type="text" @click="handleOpenEvaluate(scope.row.id)"
+              >开放评价</el-button
             >
           </template>
         </el-table-column>
@@ -62,7 +52,7 @@
 </template>
 
 <script>
-import { queryCourse, deleteCourse } from "@/api/course";
+import { queryCourse, changeEvaluateState } from "@/api/course";
 
 export default {
   name: "Course",
@@ -103,22 +93,22 @@ export default {
     handleCurrentChange(current) {
       this.handleSearch(current, this.pagination.size);
     },
-    handleDelete(id) {
-      deleteCourse({ id })
+    handleOpenEvaluate(id) {
+      changeEvaluateState({ courseId: id, status: 1 })
         .then((res) => {
           if (res.success) {
             this.$message({
-              message: "删除成功",
+              message: "操作成功",
               type: "success",
             });
             this.handleSearch();
           } else {
-            throw new Error("删除失败");
+            throw new Error("操作失败");
           }
         })
         .catch((e) => {
           this.$message({
-            message: "删除失败",
+            message: "操作失败",
             type: "error",
           });
           console.log(e);

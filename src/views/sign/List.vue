@@ -36,6 +36,7 @@
         </el-table-column>
         <el-table-column prop="evaluated" label="是否完成课程评价" width="180">
           <template slot-scope="scope">
+            <el-tag v-if="scope.row.evaluated === 2" type="info">未开放</el-tag>
             <el-tag v-if="scope.row.evaluated === 1" type="success"
               >已评价</el-tag
             >

@@ -8,7 +8,7 @@ export function add(data) {
     })
 }
 
-export function deletequestionnaire(params) {
+export function deleteQustionnair(params) {
     return request({
         url: '/questionnaire/delete',
         method: 'DELETE',

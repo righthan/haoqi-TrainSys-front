@@ -23,6 +23,18 @@
           <span>选课管理</span>
         </template>
       </el-menu-item>
+      <el-menu-item index="selectCourse">
+        <template slot="title">
+          <i class="el-icon-user"></i>
+          <span>课程报名</span>
+        </template>
+      </el-menu-item>
+      <el-menu-item index="evaluateCourse">
+        <template slot="title">
+          <i class="el-icon-user"></i>
+          <span>课程评价</span>
+        </template>
+      </el-menu-item>
       <el-menu-item index="sign">
         <template slot="title">
           <i class="el-icon-user"></i>
@@ -33,10 +45,11 @@
         <i class="el-icon-menu"></i>
         <span slot="title">讲师管理</span>
       </el-menu-item>
-      <el-menu-item index="questionnairManage">
-        <i class="el-icon-menu"></i>
-        <span slot="title">培训课程调查管理</span>
-      </el-menu-item>
+      <el-submenu index="evaluateManage">
+        <template slot="title"><i class="el-icon-menu"></i>课程调查</template>
+        <el-menu-item index="evaluateCourseManage">课程调查管理</el-menu-item>
+        <el-menu-item index="questionnairManage">课程评价查看</el-menu-item>
+      </el-submenu>
       <el-menu-item index="noticeManage">
         <i class="el-icon-menu"></i>
         <span slot="title">培训通知管理</span>
