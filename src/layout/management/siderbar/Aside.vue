@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-menu
-      background-color="#514a71"
+      background-color="#60b0f7"
       text-color="#fff"
       active-text-color="#ffd04b"
       :default-active="getPath"
@@ -60,4 +60,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+[class^="el-icon-"] {
+  color: white;
+}
+</style>

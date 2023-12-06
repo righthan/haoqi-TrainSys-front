@@ -7,9 +7,9 @@
         :model="loginData"
         :rules="rules"
         label-width="80px">
-        <div class="title">欢迎使用浩奇培训管理系统</div>
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="loginData.username"></el-input>
+        <div class="title"><h2>欢迎使用浩奇培训信息管理系统</h2></div>
+        <el-form-item label="学号" prop="id">
+          <el-input v-model="loginData.id"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input type="password" v-model="loginData.password"></el-input>
@@ -28,13 +28,11 @@ export default {
   data() {
     return {
       loginData: {
-        username: "",
+        id: "",
         password: "",
       },
       rules: {
-        username: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
-        ],
+        username: [{ required: true, message: "请输入学号", trigger: "blur" }],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }],
       },
     };
@@ -64,7 +62,7 @@ export default {
 };
 </script>
 
-<stype lang="scss" scoped>
+<style lang="scss" scoped>
 .login-container {
   background-image: url("@/assets/background.jpg");
   background-size: cover;
@@ -79,7 +77,7 @@ export default {
   padding-left: 70px;
 }
 .login-card {
-  width: 400px;
+  width: 500px;
   padding-right: 10px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -91,4 +89,4 @@ export default {
     margin-left: 35%;
   }
 }
-</stype>
+</style>

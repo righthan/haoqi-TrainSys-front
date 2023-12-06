@@ -34,11 +34,11 @@ export default {
   height: 100vh;
 }
 .el-header {
-  background-color: #494a6f;
-  color: #d3d3d3;
+  background-color: #60b0f7;
+  color: white;
 }
 .el-aside {
-  background-color: #514a71;
+  background-color: #60b0f7;
   /* height: 100vh; */
   overflow-y: hidden;
 }
