@@ -18,6 +18,11 @@ const routes = [
     children: manageRouter
   },
   {
+    path: '/home',
+    name: 'home',
+    component: () => import('../views/home/Home.vue')
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('../views/login/Login.vue')
