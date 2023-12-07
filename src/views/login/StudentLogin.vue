@@ -21,7 +21,8 @@
 </template>
 
 <script>
-import { login } from "@/api/user";
+import { studentLogin } from "@/api/user";
+import { encryptData } from "@/utils/crypto";
 
 export default {
   name: "StudentLogin",
@@ -41,18 +42,24 @@ export default {
     handleLogin() {
       this.$refs["loginForm"].validate((valid) => {
         if (valid) {
-          login(this.loginData).then((res) => {
-            if (res.code === 20000) {
-              this.$router.push("/");
-            } else {
-              this.$message({
-                message: "用户名或密码错误",
-                offset: 100,
-                type: "error",
-                center: true,
-              });
-            }
-          });
+          studentLogin(this.loginData)
+            .then((res) => {
+              if (res.code === 20000) {
+                this.$router.push("/selectCourse");
+                encryptData(res.data);
+              } else {
+                this.$message({
+                  message: "用户名或密码错误",
+                  offset: 100,
+                  type: "error",
+                  center: true,
+                });
+              }
+            })
+            .catch((e) => {
+              this.$message("服务程序错误");
+              console.log(e);
+            });
         } else {
           return false;
         }

@@ -21,7 +21,9 @@
 </template>
 
 <script>
-import { login } from "@/api/user";
+import { executorLogin } from "@/api/user";
+import { encryptData } from "@/utils/crypto";
+import { faTextHeight } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   name: "Login",
@@ -41,18 +43,33 @@ export default {
     handleLogin() {
       this.$refs["loginForm"].validate((valid) => {
         if (valid) {
-          login(this.loginData).then((res) => {
-            if (res.code === 20000) {
-              this.$router.push("/dashboard");
-            } else {
-              this.$message({
-                message: "用户名或密码错误",
-                offset: 100,
-                type: "error",
-                center: true,
-              });
-            }
-          });
+          executorLogin(this.loginData)
+            .then((res) => {
+              if (res.code === 20000) {
+                encryptData(res.data);
+                if (res.data?.role === 1) {
+                  this.$router.push("/dashboard");
+                } else if (res.data?.role === 2) {
+                  this.$router.push("/course");
+                } else if (res.data?.role === 3) {
+                  this.$router.push("/sign");
+                } else {
+                  this.$message.error("用户信息错误, 请重新登录");
+                  this.$router.push("/login");
+                }
+              } else {
+                this.$message({
+                  message: "用户名或密码错误",
+                  offset: 100,
+                  type: "error",
+                  center: true,
+                });
+              }
+            })
+            .catch((e) => {
+              this.$message.error("服务程序错误");
+              console.log(e);
+            });
         } else {
           return false;
         }

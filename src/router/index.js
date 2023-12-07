@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import manageRouter from './module/manage';
+import { decryptData } from '@/utils/crypto';
 
 Vue.use(VueRouter)
 const originalPush = VueRouter.prototype.push
@@ -42,5 +43,20 @@ const routes = [
 const router = new VueRouter({
   routes
 })
+
+const whiteList = ['/home', '/login', '/studentLogin']
+// 路由守卫
+router.beforeEach((to, from, next) => {
+  // 放行 student/login 和 executor/login 路由
+  if (whiteList.includes(to.path)) {
+    next();
+  } else {
+    const data = decryptData()
+    if (![0, 1, 2, 3].includes(data?.role)) {
+      next('/home')
+    }
+  }
+  next()
+});
 
 export default router
