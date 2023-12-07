@@ -21,6 +21,9 @@
         <el-form-item prop="email" label="电子邮箱">
           <el-input v-model="formData.email"></el-input>
         </el-form-item>
+        <el-form-item prop="title" label="职称">
+          <el-input v-model="formData.title"></el-input>
+        </el-form-item>
         <el-form-item label="擅长方向">
           <el-input v-model="formData.skills" type="textarea"></el-input>
         </el-form-item>

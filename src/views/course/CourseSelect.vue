@@ -65,6 +65,7 @@
 <script>
 import { queryCourse } from "@/api/course";
 import { add as addSign } from "@/api/sign";
+import { decryptData } from "@/utils/crypto";
 
 export default {
   name: "CourseSelect",
@@ -106,7 +107,13 @@ export default {
       this.handleSearch(current, this.pagination.size);
     },
     handleSelectCourse(courseid) {
-      addSign({ studentid: 25, courseid })
+      const userData = decryptData();
+      const { id: studentid } = userData;
+      if (!studentid) {
+        this.$message.error("缺少必要参数, 请登录刷新");
+        return;
+      }
+      addSign({ studentid, courseid })
         .then((res) => {
           if (res.success) {
             this.$message.success("报名成功");

@@ -39,6 +39,7 @@
 <script>
 import { queryCourse } from "@/api/sign";
 import { add } from "@/api/questionnair";
+import { decryptData } from "@/utils/crypto";
 
 export default {
   data() {
@@ -46,7 +47,7 @@ export default {
       open: false,
       evaluatedData: {
         courseid: null,
-        studentid: 25,
+        studentid: null,
         rating: 0,
         suggetion: "",
       },
@@ -61,8 +62,8 @@ export default {
     },
     handleCancel() {
       this.evaluatedData = {
+        ...this.evaluatedData,
         courseid: null,
-        studentid: 25,
         rating: 0,
         suggetion: "",
       };
@@ -74,11 +75,11 @@ export default {
           if (res.success) {
             this.$message.success("评价成功");
             this.evaluatedData = {
+              ...this.evaluatedData,
               courseid: null,
               rating: 0,
               suggetion: "",
             };
-            this.evaluatedData.studentid = 25;
             this.handleSearch();
             this.open = false;
           } else {
@@ -91,14 +92,22 @@ export default {
         });
     },
     handleSearch() {
-      queryCourse({ studentId: 25, status: 0 }).then((res) => {
-        if (res.success) {
-          this.tableData = [...res.data];
+      queryCourse({ studentId: this.evaluatedData.studentid, status: 0 }).then(
+        (res) => {
+          if (res.success) {
+            this.tableData = [...res.data];
+          }
         }
-      });
+      );
     },
   },
   mounted() {
+    const { id } = decryptData();
+    if (!id) {
+      this.$message.error("缺少必要参数, 请重新登录");
+      return;
+    }
+    this.evaluatedData.studentid = id;
     this.handleSearch();
   },
 };

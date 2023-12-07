@@ -4,7 +4,7 @@ import router from '@/router';
 
 const request = axios.create({
     baseURL: 'http://localhost:8080/api',
-    timeout: 5000
+    timeout: 8000
 })
 
 const whiteList = ['/student/login', '/DashBoard/query', '/executor/login']

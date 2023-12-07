@@ -98,7 +98,7 @@ export default {
                     message: "新增成功",
                     type: "success",
                   });
-                  this.this.$router.back();
+                  this.$router.back();
                 } else {
                   throw new Error("新增失败");
                 }
