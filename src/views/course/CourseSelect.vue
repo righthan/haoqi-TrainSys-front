@@ -16,16 +16,29 @@
     </el-card>
     <el-card>
       <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column prop="id" label="课程编号" width="180" />
-        <el-table-column prop="name" label="课程名称" width="180" />
-        <el-table-column prop="date" label="日期" width="180">
+        <el-table-column prop="id" label="课程编号" width="80px" />
+        <el-table-column prop="name" label="课程名称" />
+        <el-table-column prop="date" label="日期" width="120px">
           <template slot-scope="scope">{{
             scope.row.date.split("T")[0]
           }}</template>
         </el-table-column>
-        <el-table-column prop="position" label="上课地点" width="180" />
-        <el-table-column prop="price" label="课程价格 ( 元 )" width="180" />
-        <el-table-column prop="teacherid" label="课程教师" width="180" />
+        <el-table-column prop="position" label="上课地点" />
+        <el-table-column prop="price" label="课程价格 ( 元 )" width="120px" />
+        <el-table-column prop="teacherName" label="课程教师" />
+        <el-table-column prop="courseinfo" label="课程描述信息">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              width="300"
+              trigger="hover"
+              :content="scope.row.courseinfo">
+              <span slot="reference" class="info-wrapper">{{
+                scope.row.courseinfo
+              }}</span>
+            </el-popover>
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" @click="handleSelectCourse(scope.row.id)"
@@ -118,5 +131,11 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 1em;
+}
+
+.info-wrapper {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; //文本不换行，这样超出一行的部分被截取，显示...
 }
 </style>

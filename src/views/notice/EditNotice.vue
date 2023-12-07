@@ -9,15 +9,19 @@
         :model="formData"
         ref="form"
         label-width="100px">
-        <el-form-item prop="coursename" label="课程名称">
-          <el-input v-model="formData.coursename"></el-input>
+        <el-form-item prop="courseid" label="课程编号">
+          <el-input v-model="formData.courseid"></el-input>
         </el-form-item>
+        <template v-if="(this.$route.params.type = 'edit')">
+          <el-form-item prop="coursename" label="课程名称">
+            <el-input disabled v-model="formData.coursename"></el-input>
+          </el-form-item>
+        </template>
         <el-form-item prop="content" label="通知内容">
-          <el-input v-model="formData.content"></el-input>
+          <el-input v-model="formData.content" type="textarea"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm">保存</el-button>
-          <el-button @click="resetForm">重置</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -28,17 +32,13 @@
 import { add, update, queryDetail } from "@/api/notice";
 
 export default {
-  name: "EditCourse",
+  name: "EditNotice",
   data() {
     return {
       pageType: "",
       formData: {
-        id: null,
-        name: "",
-        phone: "",
-        email: "",
-        skills: "",
-        title: "",
+        courseid: "",
+        content: "",
       },
     };
   },
@@ -91,9 +91,6 @@ export default {
           return false;
         }
       });
-    },
-    resetForm() {
-      this.$refs.form.resetFields();
     },
   },
   mounted() {

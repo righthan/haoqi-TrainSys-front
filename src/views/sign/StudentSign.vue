@@ -50,9 +50,9 @@
         <el-descriptions-item label="课程名称" :span="3">{{
           data.courseName
         }}</el-descriptions-item>
-        <el-descriptions-item label="学费" :span="3">{{
-          data.price + " 元"
-        }}</el-descriptions-item>
+        <el-descriptions-item label="学费" :span="3"
+          >{{ data.price }} {{ data.price ? "元" : "" }}</el-descriptions-item
+        >
       </el-descriptions>
     </el-card>
   </div>
@@ -60,7 +60,6 @@
 
 <script>
 import { update, queryDetail, queryById } from "@/api/sign";
-import { faTextHeight } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   name: "StudentSign",
@@ -86,19 +85,19 @@ export default {
             .then((res) => {
               if (res.success) {
                 this.$message({
-                  message: "签到成功",
+                  message: "操作成功",
                   type: "success",
                 });
               } else {
                 this.$message({
-                  message: "签到失败",
+                  message: "操作失败",
                   type: "error",
                 });
               }
             })
             .catch((e) => {
               this.$message({
-                message: "签到失败, 请检查信息",
+                message: "操作失败, 请检查信息",
                 type: "error",
               });
               console.log(e);

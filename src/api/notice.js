@@ -18,7 +18,7 @@ export function deleteNotice(params) {
 
 export function queryPage(params) {
     return request({
-        url: '/notice/query',
+        url: '/notice/queryPage',
         method: 'GET',
         params
     })

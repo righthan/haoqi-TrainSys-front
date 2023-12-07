@@ -10,9 +10,6 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <div>
-      <el-button type="primary"></el-button>
-    </div>
     <el-card>
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column prop="courseid" label="课程编号" />

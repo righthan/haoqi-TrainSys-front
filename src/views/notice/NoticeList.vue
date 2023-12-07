@@ -24,7 +24,21 @@
     <el-card>
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column prop="id" label="通知编号" width="180" />
+        <el-table-column prop="courseid" label="课程编号" width="180" />
         <el-table-column prop="coursename" label="课程名称" width="180" />
+        <el-table-column prop="content" label="内容" width="180">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              width="300"
+              trigger="hover"
+              :content="scope.row.content">
+              <span slot="reference" class="info-wrapper">{{
+                scope.row.content
+              }}</span>
+            </el-popover>
+          </template>
+        </el-table-column>
         <el-table-column prop="date" label="发布日期" width="180">
           <template slot-scope="scope">{{
             scope.row.date.split("T")[0]
@@ -62,7 +76,7 @@
 import { queryPage, deleteNotice } from "@/api/notice";
 
 export default {
-  name: "Course",
+  name: "NoticeList",
   data() {
     return {
       form: {
@@ -81,7 +95,7 @@ export default {
     handleSearch(_page, _pageSize) {
       const page = _page ?? this.pagination.current;
       const pageSize = _pageSize ?? this.pagination.pageSize;
-      queryCourse({ ...this.form, page, pageSize })
+      queryPage({ ...this.form, page, pageSize })
         .then((res) => {
           if (res.success) {
             this.tableData = [...res.data.records];
@@ -133,5 +147,11 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 1em;
+}
+
+.info-wrapper {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; //文本不换行，这样超出一行的部分被截取，显示...
 }
 </style>

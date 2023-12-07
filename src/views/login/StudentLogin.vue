@@ -8,7 +8,7 @@
         :rules="rules"
         label-width="80px">
         <div class="title"><h2>欢迎使用浩奇培训信息管理系统</h2></div>
-        <el-form-item label="账号" prop="id">
+        <el-form-item label="学号" prop="id">
           <el-input v-model="loginData.id"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
@@ -24,7 +24,7 @@
 import { login } from "@/api/user";
 
 export default {
-  name: "Login",
+  name: "StudentLogin",
   data() {
     return {
       loginData: {
@@ -32,7 +32,7 @@ export default {
         password: "",
       },
       rules: {
-        username: [{ required: true, message: "请输入账号", trigger: "blur" }],
+        username: [{ required: true, message: "请输入学号", trigger: "blur" }],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }],
       },
     };
@@ -43,7 +43,7 @@ export default {
         if (valid) {
           login(this.loginData).then((res) => {
             if (res.code === 20000) {
-              this.$router.push("/dashboard");
+              this.$router.push("/");
             } else {
               this.$message({
                 message: "用户名或密码错误",

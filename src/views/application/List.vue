@@ -23,7 +23,6 @@
         <el-table-column prop="companyname" label="公司名称" width="180" />
         <el-table-column prop="phone" label="办公电话" width="180" />
         <el-table-column prop="position" label="公司地址" width="180" />
-        <el-table-column prop="price" label="价格" width="180" />
         <el-table-column prop="flag" label="是否通过" width="180">
           <template slot-scope="scope">
             <el-tag v-if="scope.row.flag === 0" type="info">未审批</el-tag>
@@ -131,7 +130,7 @@ export default {
         });
     },
     handleDelete(id) {
-      deleteTeacher({ id })
+      deleteApplication({ id })
         .then((res) => {
           if (res.success) {
             this.$message({

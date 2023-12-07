@@ -32,7 +32,7 @@
         </el-table-column>
         <el-table-column prop="position" label="上课地点" width="180" />
         <el-table-column prop="price" label="课程价格 ( 元 )" width="180" />
-        <el-table-column prop="teacherid" label="课程教师" width="180" />
+        <el-table-column prop="teacherName" label="课程教师" width="180" />
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
