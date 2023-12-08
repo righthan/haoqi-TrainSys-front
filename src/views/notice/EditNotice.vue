@@ -12,7 +12,7 @@
         <el-form-item prop="courseid" label="课程编号">
           <el-input v-model="formData.courseid"></el-input>
         </el-form-item>
-        <template v-if="(this.$route.params.type = 'edit')">
+        <template v-if="this.$route.params.type === 'edit'">
           <el-form-item prop="coursename" label="课程名称">
             <el-input disabled v-model="formData.coursename"></el-input>
           </el-form-item>
