@@ -28,8 +28,10 @@ export default {
       const data = decryptData();
       if (data?.role > 0) {
         this.$router.push("/login");
+        localStorage.clear();
       } else {
         this.$router.push("/home");
+        localStorage.clear();
       }
     },
   },
