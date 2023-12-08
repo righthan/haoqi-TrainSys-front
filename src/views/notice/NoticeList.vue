@@ -2,8 +2,8 @@
   <div class="main-layout">
     <el-card class="box-card">
       <el-form ref="form" :model="form" inline label-width="80px">
-        <el-form-item label="讲师名称">
-          <el-input v-model="form.name"></el-input>
+        <el-form-item label="课程名称">
+          <el-input v-model="form.courseName"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button
@@ -17,22 +17,38 @@
     <div>
       <el-button
         type="primary"
-        @click="$router.push({ path: '/editTeacher/add' })"
-        >新增讲师</el-button
+        @click="$router.push({ path: '/notice/editNotice/add' })"
+        >新增培训通知</el-button
       >
     </div>
     <el-card>
       <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column prop="id" label="编号" width="180" />
-        <el-table-column prop="name" label="姓名" width="180" />
-        <el-table-column prop="title" label="职称" width="180" />
-        <el-table-column prop="phone" label="手机号" width="180" />
-        <el-table-column prop="email" label="电子邮箱" width="180" />
+        <el-table-column prop="id" label="通知编号" width="180" />
+        <el-table-column prop="courseid" label="课程编号" width="180" />
+        <el-table-column prop="coursename" label="课程名称" width="180" />
+        <el-table-column prop="content" label="内容" width="180">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              width="300"
+              trigger="hover"
+              :content="scope.row.content">
+              <span slot="reference" class="info-wrapper">{{
+                scope.row.content
+              }}</span>
+            </el-popover>
+          </template>
+        </el-table-column>
+        <el-table-column prop="date" label="发布日期" width="180">
+          <template slot-scope="scope">{{
+            scope.row.date.split("T")[0]
+          }}</template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
               type="text"
-              @click="$router.push('/editTeacher/edit/' + scope.row.id)"
+              @click="$router.push('/notice/editNotice/edit/' + scope.row.id)"
               >编辑</el-button
             >
             <el-button type="text" @click="handleDelete(scope.row.id)"
@@ -57,14 +73,14 @@
 </template>
 
 <script>
-import { query, deleteTeacher } from "@/api/teacher";
+import { queryPage, deleteNotice } from "@/api/notice";
 
 export default {
-  name: "Course",
+  name: "NoticeList",
   data() {
     return {
       form: {
-        name: "",
+        courseName: "",
       },
       tableData: [],
       pagination: {
@@ -79,7 +95,7 @@ export default {
     handleSearch(_page, _pageSize) {
       const page = _page ?? this.pagination.current;
       const pageSize = _pageSize ?? this.pagination.pageSize;
-      query({ ...this.form, page, pageSize })
+      queryPage({ ...this.form, page, pageSize })
         .then((res) => {
           if (res.success) {
             this.tableData = [...res.data.records];
@@ -99,7 +115,7 @@ export default {
       this.handleSearch(current, this.pagination.size);
     },
     handleDelete(id) {
-      deleteTeacher({ id })
+      deleteCourse({ id })
         .then((res) => {
           if (res.success) {
             this.$message({
@@ -131,5 +147,11 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 1em;
+}
+
+.info-wrapper {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; //文本不换行，这样超出一行的部分被截取，显示...
 }
 </style>

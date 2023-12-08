@@ -1,52 +1,23 @@
 import request from '@/utils/request'
 
-export const getUsersByCondition = (data) => {
+// 学员登录
+export const studentLogin = (data) => {
     return request({
-        url: '/user/getUsersByCondition',
-        method: 'GET',
-        params: data
-    })
-}
-
-export const getUserById = (data) => {
-    return request({
-        url: '/user/getUserById',
-        method: 'GET',
-        params: {
-            id: data
-        }
-    })
-}
-
-export const updateUserInfo = (data) => {
-    return request({
-        url: '/user/updateUserInfo',
-        method: 'PUT',
+        url: '/student/login',
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        },
+        method: 'POST',
         data
     })
 }
 
-export const deleteUser = (data) => {
+// 经理, 执行人, 现场工作人员登录
+export const executorLogin = (data) => {
     return request({
-        url: '/user/deleteUser',
-        method: 'delete',
-        params: data
-    })
-}
-
-export const modifyPassword = (data) => {
-    return request({
-        url: '/user/updatePassword',
-        method: 'PUT',
-        params: data
-    })
-}
-
-export const login = (data) => {
-    return request({
-        url: '/user/login',
+        url: '/executor/login',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'multipart/form-data'
         },
         method: 'POST',
         data

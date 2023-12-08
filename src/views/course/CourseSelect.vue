@@ -2,8 +2,8 @@
   <div class="main-layout">
     <el-card class="box-card">
       <el-form ref="form" :model="form" inline label-width="80px">
-        <el-form-item label="公司名称">
-          <el-input v-model="form.name"></el-input>
+        <el-form-item label="课程名称">
+          <el-input v-model="form.courseName"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button
@@ -14,29 +14,35 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <div>
-      <el-button
-        type="primary"
-        @click="$router.push({ path: '/editTeacher/add' })"
-        >新增讲师</el-button
-      >
-    </div>
     <el-card>
       <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column prop="id" label="编号" width="180" />
-        <el-table-column prop="name" label="姓名" width="180" />
-        <el-table-column prop="title" label="职称" width="180" />
-        <el-table-column prop="phone" label="手机号" width="180" />
-        <el-table-column prop="email" label="电子邮箱" width="180" />
+        <el-table-column prop="id" label="课程编号" width="80px" />
+        <el-table-column prop="name" label="课程名称" />
+        <el-table-column prop="date" label="日期" width="120px">
+          <template slot-scope="scope">{{
+            scope.row.date.split("T")[0]
+          }}</template>
+        </el-table-column>
+        <el-table-column prop="position" label="上课地点" />
+        <el-table-column prop="price" label="课程价格 ( 元 )" width="120px" />
+        <el-table-column prop="teacherName" label="课程教师" />
+        <el-table-column prop="courseinfo" label="课程描述信息">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              width="300"
+              trigger="hover"
+              :content="scope.row.courseinfo">
+              <span slot="reference" class="info-wrapper">{{
+                scope.row.courseinfo
+              }}</span>
+            </el-popover>
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button
-              type="text"
-              @click="$router.push('/editTeacher/edit/' + scope.row.id)"
-              >编辑</el-button
-            >
-            <el-button type="text" @click="handleDelete(scope.row.id)"
-              >删除</el-button
+            <el-button type="text" @click="handleSelectCourse(scope.row.id)"
+              >报名</el-button
             >
           </template>
         </el-table-column>
@@ -57,14 +63,16 @@
 </template>
 
 <script>
-import { query, deleteTeacher } from "@/api/teacher";
+import { queryCourse } from "@/api/course";
+import { add as addSign } from "@/api/sign";
+import { decryptData } from "@/utils/crypto";
 
 export default {
-  name: "Course",
+  name: "CourseSelect",
   data() {
     return {
       form: {
-        name: "",
+        courseName: "",
       },
       tableData: [],
       pagination: {
@@ -79,7 +87,7 @@ export default {
     handleSearch(_page, _pageSize) {
       const page = _page ?? this.pagination.current;
       const pageSize = _pageSize ?? this.pagination.pageSize;
-      query({ ...this.form, page, pageSize })
+      queryCourse({ ...this.form, page, pageSize })
         .then((res) => {
           if (res.success) {
             this.tableData = [...res.data.records];
@@ -98,24 +106,23 @@ export default {
     handleCurrentChange(current) {
       this.handleSearch(current, this.pagination.size);
     },
-    handleDelete(id) {
-      deleteTeacher({ id })
+    handleSelectCourse(courseid) {
+      const userData = decryptData();
+      const { id: studentid } = userData;
+      if (!studentid) {
+        this.$message.error("缺少必要参数, 请登录刷新");
+        return;
+      }
+      addSign({ studentid, courseid })
         .then((res) => {
           if (res.success) {
-            this.$message({
-              message: "删除成功",
-              type: "success",
-            });
-            this.handleSearch();
+            this.$message.success("报名成功");
           } else {
-            throw new Error("删除失败");
+            this.$message.error("已报名过该课程");
           }
         })
         .catch((e) => {
-          this.$message({
-            message: "删除失败",
-            type: "error",
-          });
+          this.$message.error("网络出现问题");
           console.log(e);
         });
     },
@@ -131,5 +138,11 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 1em;
+}
+
+.info-wrapper {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; //文本不换行，这样超出一行的部分被截取，显示...
 }
 </style>

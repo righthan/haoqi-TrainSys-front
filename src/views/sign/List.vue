@@ -11,12 +11,15 @@
       </el-form>
     </el-card>
     <div>
-      <el-button type="primary" @click="$router.push({ path: '/editSign/add' })"
+      <el-button
+        type="primary"
+        @click="$router.push({ path: '/selectManage/editSign/add' })"
         >添加选课记录</el-button
       >
     </div>
     <el-card>
       <el-table :data="tableData" stripe style="width: 100%">
+        <el-table-column prop="studentid" label="学号" width="180" />
         <el-table-column prop="studentName" label="姓名" width="180" />
         <el-table-column prop="courseName" label="课程名称" width="180" />
         <el-table-column prop="signed" label="是否签到" width="180">
@@ -33,6 +36,7 @@
         </el-table-column>
         <el-table-column prop="evaluated" label="是否完成课程评价" width="180">
           <template slot-scope="scope">
+            <el-tag v-if="scope.row.evaluated === 2" type="info">未开放</el-tag>
             <el-tag v-if="scope.row.evaluated === 1" type="success"
               >已评价</el-tag
             >
@@ -45,7 +49,9 @@
           <template slot-scope="scope">
             <el-button
               type="text"
-              @click="$router.push('/editSign/edit/' + scope.row.id)"
+              @click="
+                $router.push('/selectManage/editSign/edit/' + scope.row.id)
+              "
               >编辑</el-button
             >
             <el-button type="text" @click="handleDelete(scope.row.id)"

@@ -2,34 +2,26 @@
   <div>
     <el-card>
       <div slot="header" class="clearfix">
-        <h3>
-          {{ this.$route.params.type === "add" ? "新增" : "编辑" }}课程信息
-        </h3>
+        <h3>{{ this.$route.params.type === "add" ? "新增" : "编辑" }}通知</h3>
       </div>
       <el-form
         class="form-wrapper"
         :model="formData"
         ref="form"
-        :rules="rules"
         label-width="100px">
-        <el-form-item prop="name" label="姓名">
-          <el-input v-model="formData.name"></el-input>
+        <el-form-item prop="courseid" label="课程编号">
+          <el-input v-model="formData.courseid"></el-input>
         </el-form-item>
-        <el-form-item prop="phone" label="手机号">
-          <el-input v-model="formData.phone"></el-input>
-        </el-form-item>
-        <el-form-item prop="email" label="电子邮箱">
-          <el-input v-model="formData.email"></el-input>
-        </el-form-item>
-        <el-form-item prop="title" label="职称">
-          <el-input v-model="formData.title"></el-input>
-        </el-form-item>
-        <el-form-item label="擅长方向">
-          <el-input v-model="formData.skills" type="textarea"></el-input>
+        <template v-if="this.$route.params.type === 'edit'">
+          <el-form-item prop="coursename" label="课程名称">
+            <el-input disabled v-model="formData.coursename"></el-input>
+          </el-form-item>
+        </template>
+        <el-form-item prop="content" label="通知内容">
+          <el-input v-model="formData.content" type="textarea"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm">保存</el-button>
-          <el-button @click="resetForm">重置</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -37,28 +29,16 @@
 </template>
 
 <script>
-import { add, update, queryDetail } from "@/api/teacher";
+import { add, update, queryDetail } from "@/api/notice";
 
 export default {
-  name: "EditCourse",
+  name: "EditNotice",
   data() {
     return {
       pageType: "",
       formData: {
-        id: null,
-        name: "",
-        phone: "",
-        email: "",
-        skills: "",
-        title: "",
-      },
-      rules: {
-        name: [
-          { required: true, message: "请输入姓名", trigger: "blur" },
-          { min: 1, message: "长度至少为一个字符", trigger: "blur" },
-        ],
-        phone: [{ required: true, message: "请输入手机号", trigger: "blur" }],
-        email: [{ required: true, message: "请输入电子邮箱", trigger: "blur" }],
+        courseid: "",
+        content: "",
       },
     };
   },
@@ -111,9 +91,6 @@ export default {
           return false;
         }
       });
-    },
-    resetForm() {
-      this.$refs.form.resetFields();
     },
   },
   mounted() {

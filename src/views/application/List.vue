@@ -2,6 +2,9 @@
   <div class="main-layout">
     <el-card class="box-card">
       <el-form ref="form" :model="form" inline label-width="80px">
+        <el-form-item label="公司名称">
+          <el-input v-model="form.companyName"></el-input>
+        </el-form-item>
         <el-form-item label="课程名称">
           <el-input v-model="form.courseName"></el-input>
         </el-form-item>
@@ -14,31 +17,32 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <div>
-      <el-button
-        type="primary"
-        @click="$router.push({ path: '/editCourse/add' })"
-        >新增培训课程</el-button
-      >
-    </div>
     <el-card>
       <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column prop="id" label="课程编号" width="180" />
-        <el-table-column prop="name" label="课程名称" width="180" />
-        <el-table-column prop="date" label="日期" width="180">
-          <template slot-scope="scope">{{
-            scope.row.date.split("T")[0]
-          }}</template>
+        <el-table-column prop="coursename" label="课程名称" width="180" />
+        <el-table-column prop="companyname" label="公司名称" width="180" />
+        <el-table-column prop="phone" label="办公电话" width="180" />
+        <el-table-column prop="position" label="公司地址" width="180" />
+        <el-table-column prop="flag" label="是否通过" width="180">
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.flag === 0" type="info">未审批</el-tag>
+            <el-tag v-if="scope.row.flag === 1" type="success">同意</el-tag>
+            <el-tag v-if="scope.row.flag === 2" type="danger">拒绝</el-tag>
+          </template>
         </el-table-column>
-        <el-table-column prop="position" label="上课地点" width="180" />
-        <el-table-column prop="price" label="课程价格 ( 元 )" width="180" />
-        <el-table-column prop="teacherid" label="课程教师" width="180" />
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
+              v-if="scope.row.flag === 0"
               type="text"
-              @click="$router.push('/editCourse/edit/' + scope.row.id)"
-              >编辑</el-button
+              @click="handleUpdate(scope.row.id, 1)"
+              >同意</el-button
+            >
+            <el-button
+              v-if="scope.row.flag === 0"
+              type="text"
+              @click="handleUpdate(scope.row.id, 2)"
+              >拒绝</el-button
             >
             <el-button type="text" @click="handleDelete(scope.row.id)"
               >删除</el-button
@@ -62,14 +66,15 @@
 </template>
 
 <script>
-import { queryCourse, deleteCourse } from "@/api/course";
+import { query, deleteApplication, update } from "@/api/application";
 
 export default {
-  name: "Course",
+  name: "Application",
   data() {
     return {
       form: {
         courseName: "",
+        companyName: "",
       },
       tableData: [],
       pagination: {
@@ -84,7 +89,7 @@ export default {
     handleSearch(_page, _pageSize) {
       const page = _page ?? this.pagination.current;
       const pageSize = _pageSize ?? this.pagination.pageSize;
-      queryCourse({ ...this.form, page, pageSize })
+      query({ ...this.form, page, pageSize })
         .then((res) => {
           if (res.success) {
             this.tableData = [...res.data.records];
@@ -103,8 +108,29 @@ export default {
     handleCurrentChange(current) {
       this.handleSearch(current, this.pagination.size);
     },
+    handleUpdate(id, status) {
+      update({ id, status })
+        .then((res) => {
+          if (res.success) {
+            this.$message({
+              message: "操作成功",
+              type: "success",
+            });
+            this.handleSearch();
+          } else {
+            throw new Error("操作失败");
+          }
+        })
+        .catch((e) => {
+          this.$message({
+            message: "操作失败",
+            type: "success",
+          });
+          console.log(e);
+        });
+    },
     handleDelete(id) {
-      deleteCourse({ id })
+      deleteApplication({ id })
         .then((res) => {
           if (res.success) {
             this.$message({

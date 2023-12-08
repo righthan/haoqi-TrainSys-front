@@ -39,3 +39,14 @@ export function deleteCourse(params) {
         params
     });
 }
+
+export function changeEvaluateState(data) {
+    return request({
+        url: '/course/changeEvaluatedState',
+        method: 'PUT',
+        headers: {
+            "Content-Type": "multipart/form-data"
+        },
+        data
+    })
+}

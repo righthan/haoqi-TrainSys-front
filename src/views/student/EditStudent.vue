@@ -3,7 +3,7 @@
     <el-card>
       <div slot="header" class="clearfix">
         <h3>
-          {{ this.$route.params.type === "add" ? "新增" : "编辑" }}课程信息
+          {{ this.$route.params.type === "add" ? "新增" : "编辑" }}学员信息
         </h3>
       </div>
       <el-form
@@ -12,39 +12,20 @@
         ref="form"
         :rules="rules"
         label-width="100px">
-        <el-form-item label="课程编号" v-if="$route.params.type === 'edit'">
-          <el-input disabled v-model="formData.id"></el-input>
-        </el-form-item>
-        <el-form-item prop="name" label="课程名称">
+        <el-form-item prop="name" label="姓名">
           <el-input v-model="formData.name"></el-input>
         </el-form-item>
-        <el-form-item label="课程描述信息">
-          <el-input v-model="formData.courseinfo" type="textarea"></el-input>
+        <el-form-item prop="company" label="所在公司">
+          <el-input v-model="formData.company"></el-input>
         </el-form-item>
-        <el-form-item prop="price" label="价格">
-          <el-input v-model="formData.price"></el-input>
+        <el-form-item prop="phone" label="手机号">
+          <el-input v-model="formData.phone"></el-input>
         </el-form-item>
-        <el-form-item prop="date" label="上课时间">
-          <el-date-picker
-            v-model="formData.date"
-            type="date"
-            placeholder="选择日期">
-          </el-date-picker>
+        <el-form-item prop="email" label="电子邮箱">
+          <el-input v-model="formData.email"></el-input>
         </el-form-item>
-        <el-form-item prop="position" label="上课地点">
+        <el-form-item prop="position" label="联系地址">
           <el-input v-model="formData.position"></el-input>
-        </el-form-item>
-        <el-form-item prop="teacherid" label="课程讲师">
-          <!-- <el-select v-model="value" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select> -->
-          <el-input v-model="formData.teacherid"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm">保存</el-button>
@@ -56,7 +37,7 @@
 </template>
 
 <script>
-import { addCourse, queryDetail, update } from "@/api/course";
+import { add, update, queryDetail } from "@/api/student";
 
 export default {
   name: "EditCourse",
@@ -66,22 +47,18 @@ export default {
       formData: {
         id: null,
         name: "",
-        date: "",
-        courseinfo: "",
-        position: "",
-        price: "",
-        teacherid: "",
+        phone: "",
+        email: "",
+        skills: "",
+        title: "",
       },
       rules: {
         name: [
-          { required: true, message: "请输入课程名称", trigger: "blur" },
+          { required: true, message: "请输入姓名", trigger: "blur" },
           { min: 1, message: "长度至少为一个字符", trigger: "blur" },
         ],
-        price: [{ required: true, message: "请输入价格", trigger: "blur" }],
-        position: [
-          { required: true, message: "请输入上课地点", trigger: "blur" },
-        ],
-        date: [{ required: true, message: "请选择上课时间", trigger: "blur" }],
+        phone: [{ required: true, message: "请输入手机号", trigger: "blur" }],
+        email: [{ required: true, message: "请输入电子邮箱", trigger: "blur" }],
       },
     };
   },
@@ -89,9 +66,8 @@ export default {
     submitForm() {
       this.$refs["form"].validate((valid) => {
         if (valid) {
-          console.log(this.formData);
           if (this.pageType === "add") {
-            addCourse({ ...this.formData })
+            add({ ...this.formData })
               .then((res) => {
                 if (res.success) {
                   this.$message({
@@ -143,9 +119,7 @@ export default {
   mounted() {
     const { type, id } = this.$route.params;
     this.pageType = type;
-    console.log("mounted");
     if (type === "edit") {
-      console.log("query");
       queryDetail({ id })
         .then((res) => {
           if (res.success) {

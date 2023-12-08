@@ -24,6 +24,22 @@ export function query(params) {
     })
 }
 
+export function queryCourse(params) {
+    return request({
+        url: '/sign/queryCourse',
+        method: 'GET',
+        params
+    })
+}
+
+export function queryById(params) {
+    return request({
+        url: '/sign/queryById',
+        method: 'GET',
+        params
+    })
+}
+
 export function queryDetail(params) {
     return request({
         url: '/sign/queryDetail',
@@ -36,6 +52,17 @@ export function update(data) {
     return request({
         url: '/sign/update',
         method: 'POST',
+        data
+    })
+}
+
+export function changeEvaluateState(data) {
+    return request({
+        url: '/sign/changeEvaluateState',
+        method: 'PUT',
+        headers: {
+            "Content-Type": "multipart/form-data"
+        },
         data
     })
 }
